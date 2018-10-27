@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 4 - 请求PHP接口</title>
+</head>
+<body>
+    <button id="button">获取PHP数据</button>
+    <br><br>
+
+    <h3>表单GET提交数据到PHP</h3>
+    <form action="process.php" method="GET">
+        <input type="text" name="name">
+        <input type="submit" value="提交">
+    </form>
+
+    <h3>Ajax 请求数据 GET</h3>
+    <form id="getForm">
+        <input type="text" name="name" id="name1">
+        <input type="submit" value="提交">
+    </form>
+
+    <hr>
+
+    <h3>表单POST提交数据到PHP</h3>
+    <form action="process.php" method="POST">
+        <input type="text" name="name">
+        <input type="submit" value="提交">
+    </form>
+
+    <h3>Ajax 请求数据 POST</h3>
+    <form id="postForm">
+        <input type="text" name="name" id="name2">
+        <input type="submit" value="提交">
+    </form>
+
+    <script>
+        document.getElementById("button").addEventListener("click",getData);
+        document.getElementById("getForm").addEventListener("submit",getForm);
+        document.getElementById("postForm").addEventListener("submit",postForm);
+
+        function getData(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET",'process.php?name=Henry',true);
+            xhr.onload = function(){
+                console.log(this.responseText);
+            }
+            xhr.send();
+        }
+
+        function getForm(e){
+            e.preventDefault();
+            var name = document.getElementById("name1").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET",'process.php?name='+name,true);
+            xhr.onload = function(){
+                console.log(this.responseText);
+            }
+            xhr.send();
+        }
+
+        function postForm(e){
+            e.preventDefault();
+            var name = document.getElementById("name2").value;
+            var params = "name="+name;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST",'process.php',true);
+            // 设置请求头
+            xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            xhr.onload = function(){
+                console.log(this.responseText);
+            }
+            xhr.send(params);
+        }
+    </script>
+</body>
+</html>
